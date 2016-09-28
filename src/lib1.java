@@ -2,63 +2,112 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-public class lib1 {
+public class lib1{
+	public static String change (String ss){
+		StringBuffer temps = new StringBuffer("");
+		int len=ss.length();
+		char [] vars=ss.toCharArray();
+		for(int i=0;i<len;i++){
+			if(vars[i]!=' ') temps.append(vars[i]);
+		}
+		String s=temps.toString();
+		return s;
+	}
+	public static boolean judge (String ss){
+		int len=ss.length();
+		char [] vars=ss.toCharArray();
+		for(int i=0;i+1<len;i++){
+			if(vars[i]=='*' || vars[i]=='+' || vars[i]=='-' || vars[i]=='^'){
+				if(vars[i+1]=='*' || vars[i+1]=='+' || vars[i+1]=='-' || vars[i+1]=='^'){
+					return false;
+				}
+			}
+		}
+		for(int i=0;i<len;){
+			if(vars[i]>='0' && vars[i]<='9') {
+				while(++i<len && (vars[i]>='0' && vars[i]<='9'));
+				if(i>=len) return true;
+				if(vars[i]>='a' && vars[i]<='z'){
+					while(++i<len && (vars[i]>='a' && vars[i]<='z'));
+					if(i>=len) return true;
+					if(vars[i]=='^'){
+						i++;
+						if(i>=len) return false;
+						if(vars[i]>='0' &&vars[i]<='9'){
+							while(++i<len && (vars[i]>='0'&&vars[i]<='9')||vars[i]==' ');
+							continue;
+						}
+						else {
+							return false;
+						}
+					}
+					else if(vars[i]>='0' && vars[i]<='9') return false;
+					else continue;
+				}
+				else continue;
+			}
+			if(vars[i]>='a' && vars[i]<='z'){
+				while(++i<len && (vars[i]>='a' && vars[i]<='z'));
+				if(i>=len) return true;
+				if(vars[i]=='^'){
+					i++;
+					if(i>=len) return false;
+					if(vars[i]>='0' &&vars[i]<='9'){
+						if(i>=len) return true;
+						while(++i<len && (vars[i]>='0'&&vars[i]<='9'));
+						continue;
+					}
+					else {
+						return false;
+					}
+				}
+				else if(vars[i]>='0' && vars[i]<='9') return false;
+				else continue;
+			}
+			else i++;
+		}
+		return true;
+	}
 	public static section [] expression(String ss){
 		section [] temp=new section[1000];
-		for(int x=0;x<temp.length;x++)
-		{
+		for(int x=0;x<temp.length;x++){
 			temp[x]=new section();
 		}
 		int len=ss.length();
 		char [] vars=ss.toCharArray();
-		char [] array= new char [100];
 		int cnt=0;
+		int j=0;
 		for(int i=0;i<len;){
-			boolean f1=false,f2=false,f3=false;
 			cnt++;
-			System.out.println(cnt);
 			temp[cnt].val=1;
 			temp[cnt].cnt=0;
 			StringBuffer temps = new StringBuffer("");
-			for(int j=0;j<len && vars[j]!='-' && vars[j]!='+';j++,i=j+1){
-				if(vars[j]>='0' && vars[j]<='9' && f1==false && f3==true){
-					if(!temps.toString().equals("")){
-						String s=temps.toString();
-						temp[cnt].st[temp[cnt].cnt]=s;
+			while(vars[j]=='-' || vars[j]=='+') j++;
+			for(;j<len && vars[j]!='-' && vars[j]!='+';i=j+1){
+				if(vars[j]>='0' && vars[j]<='9'){
+					temp[cnt].val=vars[j]-'0';
+					while(++j<len && vars[j]>='0' && vars[j]<='9') {
+						temp[cnt].val*=10;
+						temp[cnt].val+=vars[j]-'0';
 					}
-					temp[cnt].val=vars[j];
-					f2=false;
-					f1=true;
-					f3=false;
 				}
-				else if(vars[j]>='0' && vars[j]<='9' && f1==true){
-					temp[cnt].val*=10;
-					temp[cnt].val+=vars[j];
-				}
-				else if(vars[j]>='a' && vars[j]<='z' && f2==false){
+				else if(vars[j]>='a' && vars[j]<='z'){
 					temps=new StringBuffer("");
 					temp[cnt].cnt+=1;
-					f1=false;
-					f3=false;
 					temps.append(vars[j]);
+					while(++j<len && vars[j]>='a' && vars[j]<='z') temps.append(vars[j]);
+					String s=temps.toString();
+					temp[cnt].st[temp[cnt].cnt]=s;
 					temp[cnt].pow[temp[cnt].cnt]=1;
-					f2=true;
-					//String s=sb.toString();
-					//temp[cnt].[temp[cnt].cnt]=
-				}
-				else if(vars[j]>='a' && vars[j]<='z' && f2==true){
-					temps.append(vars[j]);
 				}
 				else if(vars[j]=='^'){
-					f1=false;
-					f2=false;
-					f3=true;
 					temp[cnt].pow[temp[cnt].cnt]=0;
+					while(++j<len && vars[j]>='0' && vars[j]<='9') {
+						temp[cnt].pow[temp[cnt].cnt]*=10;
+						temp[cnt].pow[temp[cnt].cnt]+=vars[j]-'0';
+					}
 				}
-				else if(f3){
-					temp[cnt].pow[temp[cnt].cnt]*=10;
-					temp[cnt].pow[temp[cnt].cnt]+=vars[j];
-				}
+				else if(vars[j]=='*') j++;
 			}
 		}
 		return temp;
@@ -72,8 +121,22 @@ public class lib1 {
 //		String regx="((((([a-zA-Z]|([0-9]+))\*){0,10})(([a-zA-Z]|([0-9]+)))[/+/-]){0,10})((([a-zA-Z]|([0-9]+))\*){0,10})(([a-zA-Z]|([0-9]+)))";
 //		s="x*y*2+35*z";
 //		s.matches("")
-		section[] a = expression("x*y*2+35*z");
-		
+		section[] a = expression("xx*y*2+35*z");
+		//System.out.println(change("  x *y "));
+		if(judge("x4")) System.out.println("Yes");
+		else System.out.println("No");
+		if(judge("x^")) System.out.println("Yes");
+		else System.out.println("No");
+		if(judge("3*y*x^4-10*e")) System.out.println("Yes");
+		else System.out.println("No");
+		int i=0;
+		while(a[++i].val>=1){
+			System.out.println(a[i].val);
+			for(int j=1;j<=a[i].cnt;j++){
+				System.out.print(a[i].st[j]+" ");
+				System.out.println(a[i].pow[j]);
+			}
+		}
 	}
 	
 }
