@@ -164,19 +164,23 @@ public class lib1
 
 	public static void main(String[] args) throws Exception
 	{
+		String expression = "xx*xx*y*2+35*z*z*xx*xx";
+		judge(expression);
+		section[] a = expression(expression);
+		BufferedReader bufr = new BufferedReader(new InputStreamReader(System.in));
+		String command = bufr.readLine();
 
-		section[] a = expression("xx*xx*y*2+35*z*z*xx*xx");
-		BufferedReader bufr= new BufferedReader(new InputStreamReader(System.in));
-		String command=bufr.readLine();
-		if(command.contains("!simplify "))
+		if (command.contains("!simplify "))
 		{
-			command=command.replace("!simplify ", "");
-			lib1_compute.simplify(command,a);
+			command = command.replace("!simplify ", "");
+			lib1_compute.simplify(command, a);
+			System.out.println("expression:" + expression);
 		}
-		else if(command.contains("!d/d "))
+		else if (command.contains("!d/d "))
 		{
-			command=command.replace("!d/d ", "");
-			lib1_compute.d(command,a);
+			command = command.replace("!d/d ", "");
+			lib1_compute.d(command, a);
+			System.out.println("expression:" + expression);
 		}
 		else
 		{
