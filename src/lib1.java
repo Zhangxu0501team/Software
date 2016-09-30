@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.Reader;
 
 public class lib1
 {
@@ -170,23 +169,27 @@ public class lib1
 		BufferedReader bufr = new BufferedReader(new InputStreamReader(System.in));
 		String command = bufr.readLine();
 
+		System.out.println("输入公式:" + expression);
+		long time = System.currentTimeMillis();
 		if (command.contains("!simplify "))
 		{
+			System.out.println("输入变量值：" + command);
 			command = command.replace("!simplify ", "");
+
 			lib1_compute.simplify(command, a);
-			System.out.println("expression:" + expression);
+
 		}
 		else if (command.contains("!d/d "))
 		{
+			System.out.println("输入求导：" + command);
 			command = command.replace("!d/d ", "");
 			lib1_compute.d(command, a);
-			System.out.println("expression:" + expression);
 		}
 		else
 		{
 			System.out.println("illegal commad");
 		}
-
+		System.out.println("算法执行时间:" + (System.currentTimeMillis() - time) + "毫秒");
 	}
 
 }

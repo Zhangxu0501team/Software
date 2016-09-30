@@ -88,7 +88,7 @@ public class lib1_compute
 			{
 				result += Double.valueOf(line);
 			}
-			System.out.println("result:" + result);
+			System.out.println("输出结果:" + result);
 		}
 
 		return;
@@ -142,7 +142,7 @@ public class lib1_compute
 			else
 				out = out + "+" + val + element;
 		}
-		System.out.println("result:" + out);
+		System.out.println("输出求导:" + out);
 	}
 
 }
