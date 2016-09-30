@@ -163,7 +163,7 @@ public class lib1
 
 	public static void main(String[] args) throws Exception
 	{
-		String expression = "aa*bb*  ccc4-35*aa  *aa *bb   *bb";
+		String expression = "aa*bb*  ccc4+35*aa  *aa *bb   *bb";
 		String ex=change(expression);
 		judge(ex);
 		section[] a = expression(ex);
