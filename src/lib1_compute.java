@@ -76,13 +76,13 @@ public class lib1_compute
 			// *代表每个se后的加减号
 		}
 
-		if (f1 = true)// 有问题需要解决
+		if (f1 == true)// 有问题需要解决
 		{
-			System.out.println("result:" + out);
+			System.out.println("输出结果:" + out);
 		}
 		else
 		{
-			String[] lines = out.split("+");
+			String[] lines = out.split("\\+");
 			double result = 0;
 			for (String line : lines)
 			{

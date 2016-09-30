@@ -163,12 +163,13 @@ public class lib1
 
 	public static void main(String[] args) throws Exception
 	{
-		String expression = "xx*xx*y*2+35*z*z*xx*xx";
-		judge(expression);
-		section[] a = expression(expression);
+		String expression = "aa*bb*  ccc4-35*aa  *aa *bb   *bb";
+		String ex=change(expression);
+		judge(ex);
+		section[] a = expression(ex);
 		BufferedReader bufr = new BufferedReader(new InputStreamReader(System.in));
 		String command = bufr.readLine();
-
+		
 		System.out.println("输入公式:" + expression);
 		long time = System.currentTimeMillis();
 		if (command.contains("!simplify "))
